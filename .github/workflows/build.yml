@@ -1,0 +1,33 @@
+name: build cargo
+
+on:
+  push:
+    branches: [ "cargo-cross-build" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - uses: denoland/setup-deno@v1
+      with:
+        deno-version: v1.x
+
+    - run: deno fmt --check
+    - run: cargo fmt --check
+
+    - run: cargo build --release
+
+    # upload
+    - run: |
+        cd target/release && \
+        strip cargo && \
+        tar --zstd -cvf cargo-cross-build.tar.zst cargo
+    - uses: actions/upload-artifact@v3
+      with:
+        name: cargo-cross-build
+        path: target/release/cargo-cross-build.tar.zst
