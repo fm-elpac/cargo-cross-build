@@ -1127,6 +1127,11 @@ impl UnitFor {
         self.host_features
     }
 
+    // cargo-cross-build
+    pub fn set_for_host(&mut self, host: bool) {
+        self.host = host;
+    }
+
     /// Returns how `panic` settings should be handled for this profile
     fn panic_setting(&self) -> PanicSetting {
         self.panic_setting

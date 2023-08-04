@@ -275,6 +275,9 @@ fn build_work(cx: &mut Context<'_, '_>, unit: &Unit) -> CargoResult<Job> {
     // carried over.
     let to_exec = to_exec.into_os_string();
     let mut cmd = cx.compilation.host_process(to_exec, &unit.pkg)?;
+    // cargo-cross-build
+    super::cross_build::check_cmd(&mut cmd, &unit.pkg);
+
     let debug = unit.profile.debuginfo.is_turned_on();
     cmd.env("OUT_DIR", &script_out_dir)
         .env("CARGO_MANIFEST_DIR", unit.pkg.root())

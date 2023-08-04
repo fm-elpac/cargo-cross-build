@@ -54,6 +54,9 @@ mod unit;
 pub mod unit_dependencies;
 pub mod unit_graph;
 
+// cargo-cross-build
+pub mod cross_build;
+
 use std::collections::{HashMap, HashSet};
 use std::env;
 use std::ffi::{OsStr, OsString};

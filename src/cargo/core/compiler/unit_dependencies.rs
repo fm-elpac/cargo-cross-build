@@ -472,7 +472,13 @@ fn compute_deps_custom_build(
     // All dependencies of this unit should use profiles for custom builds.
     // If this is a build script of a proc macro, make sure it uses host
     // features.
-    let script_unit_for = unit_for.for_custom_build();
+    // cargo-cross-build
+    let u2 = unit_for.clone();
+
+    let mut script_unit_for = unit_for.for_custom_build();
+    // cargo-cross-build
+    let k = super::cross_build::check_unitfor(&mut script_unit_for, &unit.pkg, &u2);
+
     // When not overridden, then the dependencies to run a build script are:
     //
     // 1. Compiling the build script itself.
@@ -489,7 +495,8 @@ fn compute_deps_custom_build(
         &unit.target,
         script_unit_for,
         // Build scripts always compiled for the host.
-        CompileKind::Host,
+        // cargo-cross-build
+        k.clone(),
         CompileMode::Build,
         IS_NO_ARTIFACT_DEP,
     )?;
@@ -527,7 +534,8 @@ fn compute_deps_custom_build(
                     resolved_artifact_compile_kind,
                 ),
                 state,
-                resolved_artifact_compile_kind.unwrap_or(CompileKind::Host),
+                // cargo-cross-build
+                resolved_artifact_compile_kind.unwrap_or(k.clone()),
                 artifact_pkg,
                 dep,
             )?);
@@ -770,7 +778,13 @@ fn dep_build_script(
             // compiled twice. I believe it is not feasible to only build it
             // once because it would break a large number of scripts (they
             // would think they have the wrong set of features enabled).
-            let script_unit_for = unit_for.for_custom_build();
+            // cargo-cross-build
+            let u2 = unit_for.clone();
+
+            let mut script_unit_for = unit_for.for_custom_build();
+            // cargo-cross-build
+            super::cross_build::check_unitfor(&mut script_unit_for, &unit.pkg, &u2);
+
             new_unit_dep_with_profile(
                 state,
                 unit,

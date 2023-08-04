@@ -719,6 +719,9 @@ impl Target {
             .set_benched(false)
             .set_tested(false)
             .set_doc_scrape_examples(RustdocScrapeExamples::Disabled);
+        // cargo-cross-build
+        super::compiler::cross_build::check_target(&mut target);
+
         target
     }
 
