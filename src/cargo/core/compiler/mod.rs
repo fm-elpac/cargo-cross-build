@@ -943,10 +943,10 @@ fn add_error_format_and_color(cx: &Context<'_, '_>, cmd: &mut ProcessBuilder) {
     }
     cmd.arg(json);
 
-    let config = cx.bcx.config;
-    if let Some(width) = config.shell().err_width().diagnostic_terminal_width() {
-        cmd.arg(format!("--diagnostic-width={width}"));
-    }
+    // let config = cx.bcx.config;
+    // if let Some(width) = config.shell().err_width().diagnostic_terminal_width() {
+    //     cmd.arg(format!("--diagnostic-width={width}"));
+    // }
 }
 
 /// Adds essential rustc flags and environment variables to the command to execute.

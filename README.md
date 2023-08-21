@@ -34,9 +34,9 @@ It is used for cross compile: run `build.rs` on target !! (NOT host)
 
 Example:
 
-```
+```sh
 export CARGO_CROSS_BUILD_CRATES=deno_runtime:deno
-export CARGO_CROSS_BUILD_RS=deno_runtime-0.118.0/build.rs:deno-1.35.0/build.rs
+export CARGO_CROSS_BUILD_RS=deno_runtime-0.123.0/build.rs:deno-1.36.1/build.rs
 export CARGO_CROSS_BUILD_RUN=run_build.sh
 ./cargo build --release --target aarch64-linux-android
 ```
